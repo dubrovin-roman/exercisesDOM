@@ -35,3 +35,21 @@ document.addEventListener("keydown", function (e) {
 btnScrollTo.addEventListener("click", () => {
   section1.scrollIntoView({ behavior: "smooth" });
 });
+/*
+document.querySelectorAll(".nav__link").forEach((element) => {
+  element.addEventListener("click", (ev) => {
+    ev.preventDefault();
+    const id = element.getAttribute("href");
+    console.log(id);
+    document.querySelector(id).scrollIntoView({ behavior: "smooth" });
+  });
+});
+*/
+
+document.querySelector(".nav__links").addEventListener("click", (ev) => {
+  ev.preventDefault();
+  if (ev.target.classList.contains("nav__link")) {
+    const id = ev.target.getAttribute("href");
+    document.querySelector(id).scrollIntoView({ behavior: "smooth" });
+  }
+});
