@@ -53,3 +53,26 @@ document.querySelector(".nav__links").addEventListener("click", (ev) => {
     document.querySelector(id).scrollIntoView({ behavior: "smooth" });
   }
 });
+
+//настройка табов в секции 2
+
+const tabContainer = document.querySelector(".operations__tab-container");
+const operationsTab = document.querySelectorAll(".operations__tab");
+const operationsContent = document.querySelectorAll(".operations__content");
+
+tabContainer.addEventListener("click", (ev) => {
+  ev.preventDefault();
+  const elementBtn = ev.target.closest(".operations__tab");
+
+  if (!elementBtn) return;
+
+  operationsTab.forEach((el) => el.classList.remove("operations__tab--active"));
+  elementBtn.classList.add("operations__tab--active");
+
+  operationsContent.forEach((el) =>
+    el.classList.remove("operations__content--active")
+  );
+  document
+    .querySelector(`.operations__content--${elementBtn.dataset.tab}`)
+    .classList.add("operations__content--active");
+});
