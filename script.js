@@ -32,6 +32,7 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
+// начтройка кнопки "Узнать больше"
 btnScrollTo.addEventListener("click", () => {
   section1.scrollIntoView({ behavior: "smooth" });
 });
@@ -46,6 +47,7 @@ document.querySelectorAll(".nav__link").forEach((element) => {
 });
 */
 
+// настройка ссылок в меню
 document.querySelector(".nav__links").addEventListener("click", (ev) => {
   ev.preventDefault();
   if (ev.target.classList.contains("nav__link")) {
@@ -55,7 +57,6 @@ document.querySelector(".nav__links").addEventListener("click", (ev) => {
 });
 
 //настройка табов в секции 2
-
 const tabContainer = document.querySelector(".operations__tab-container");
 const operationsTab = document.querySelectorAll(".operations__tab");
 const operationsContent = document.querySelectorAll(".operations__content");
@@ -76,3 +77,21 @@ tabContainer.addEventListener("click", (ev) => {
     .querySelector(`.operations__content--${elementBtn.dataset.tab}`)
     .classList.add("operations__content--active");
 });
+
+//настройка прозрачности меню при наведении
+const nav = document.querySelector(".nav");
+
+function hover(ev) {
+  ev.preventDefault();
+  const logo = nav.querySelector(".nav__logo");
+  const targetLink = ev.target;
+  const navLinks = nav.querySelectorAll(".nav__link");
+  if (targetLink.classList.contains("nav__link")) {
+    logo.style.opacity = this;
+    navLinks.forEach((el) => (el.style.opacity = this));
+    targetLink.style.opacity = 1;
+  }
+}
+
+nav.addEventListener("mouseover", hover.bind(0.5));
+nav.addEventListener("mouseout", hover.bind(1));
