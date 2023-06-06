@@ -149,3 +149,35 @@ function uploadingPhotos(entries, observer) {
     observer.unobserve(tempEl);
   }
 }
+
+//слайдер
+const slider = document.querySelector(".slider");
+const slides = document.querySelectorAll(".slide");
+const btnLeft = document.querySelector(".slider__btn--left");
+const btnRight = document.querySelector(".slider__btn--right");
+
+let currentSlide = 0;
+const maxCountSlides = slides.length;
+
+function goToSlide(slide) {
+  slides.forEach((element, i) => {
+    element.style.transform = `translateX(${100 * (i - slide)}%)`;
+  });
+}
+
+function nextSlide() {
+  if (currentSlide === maxCountSlides - 1) currentSlide = 0;
+  else currentSlide++;
+  goToSlide(currentSlide);
+}
+
+function prevSlide() {
+  if (currentSlide === 0) currentSlide = maxCountSlides - 1;
+  else currentSlide--;
+  goToSlide(currentSlide);
+}
+
+goToSlide(0);
+
+btnRight.addEventListener("click", nextSlide);
+btnLeft.addEventListener("click", prevSlide);
