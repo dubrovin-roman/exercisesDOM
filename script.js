@@ -95,3 +95,41 @@ function hover(ev) {
 
 nav.addEventListener("mouseover", hover.bind(0.5));
 nav.addEventListener("mouseout", hover.bind(1));
+
+//настройка автоматического появления меню при прокрутке страницы
+const optionsObserverNav = {
+  root: null,
+  threshold: 0,
+  rootMargin: "-90px",
+};
+
+function stickyNav(entries, observer) {
+  if (!entries[0].isIntersecting) {
+    nav.classList.add("sticky");
+  } else {
+    nav.classList.remove("sticky");
+  }
+}
+
+const observerNav = new IntersectionObserver(stickyNav, optionsObserverNav);
+observerNav.observe(document.querySelector(".header"));
+
+//настраиваем всплытие секций, когда до них дойдет просмотр
+const sections = document.querySelectorAll(".section");
+const sectionsObserver = new IntersectionObserver(surfacingSections, {
+  threshold: 0.15,
+});
+sections.forEach((element) => {
+  element.classList.add("section--hidden");
+  sectionsObserver.observe(element);
+});
+
+function surfacingSections(entries, observer) {
+  if (
+    entries[0].isIntersecting 
+    //&& entries[0].target.classList.contains("section--hidden")
+  ) {
+    entries[0].target.classList.remove("section--hidden");
+    observer.unobserve(entries[0].target);
+  }
+}
