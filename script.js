@@ -137,7 +137,7 @@ function surfacingSections(entries, observer) {
 //подгрузка фотографий
 const featuresImgs = document.querySelectorAll(".features__img");
 const imgsObserver = new IntersectionObserver(uploadingPhotos, {
-  threshold: 0.6,
+  threshold: 0.5,
 });
 featuresImgs.forEach((element) => imgsObserver.observe(element));
 
@@ -145,7 +145,7 @@ function uploadingPhotos(entries, observer) {
   const tempEl = entries[0].target;
   if (entries[0].isIntersecting) {
     tempEl.setAttribute("src", tempEl.dataset.src);
-    tempEl.classList.remove("lazy-img");
+    tempEl.addEventListener("load", () => tempEl.classList.remove("lazy-img"));
     observer.unobserve(tempEl);
   }
 }
