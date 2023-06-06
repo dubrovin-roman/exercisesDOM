@@ -181,3 +181,18 @@ goToSlide(0);
 
 btnRight.addEventListener("click", nextSlide);
 btnLeft.addEventListener("click", prevSlide);
+
+//переключение слайдера кнопками
+let isSection3 = false;
+const observerSlider = new IntersectionObserver(
+  (entries, observer) => {
+    isSection3 = entries[0].isIntersecting;
+  },
+  { threshold: 0.5 }
+);
+observerSlider.observe(slider);
+
+document.addEventListener("keydown", (ev) => {
+  if (isSection3 && ev.key == "ArrowLeft") prevSlide();
+  if (isSection3 && ev.key == "ArrowRight") nextSlide();
+});
