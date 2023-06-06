@@ -126,10 +126,26 @@ sections.forEach((element) => {
 
 function surfacingSections(entries, observer) {
   if (
-    entries[0].isIntersecting 
+    entries[0].isIntersecting
     //&& entries[0].target.classList.contains("section--hidden")
   ) {
     entries[0].target.classList.remove("section--hidden");
     observer.unobserve(entries[0].target);
+  }
+}
+
+//подгрузка фотографий
+const featuresImgs = document.querySelectorAll(".features__img");
+const imgsObserver = new IntersectionObserver(uploadingPhotos, {
+  threshold: 0.6,
+});
+featuresImgs.forEach((element) => imgsObserver.observe(element));
+
+function uploadingPhotos(entries, observer) {
+  const tempEl = entries[0].target;
+  if (entries[0].isIntersecting) {
+    tempEl.setAttribute("src", tempEl.dataset.src);
+    tempEl.classList.remove("lazy-img");
+    observer.unobserve(tempEl);
   }
 }
