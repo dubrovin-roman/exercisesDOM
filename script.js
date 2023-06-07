@@ -32,6 +32,67 @@ document.addEventListener("keydown", function (e) {
   }
 });
 
+//слайдер
+const slider = document.querySelector(".slider");
+const slides = document.querySelectorAll(".slide");
+const btnLeft = document.querySelector(".slider__btn--left");
+const btnRight = document.querySelector(".slider__btn--right");
+const dotsContainer = document.querySelector(".dots");
+
+let currentSlide = 0;
+const maxCountSlides = slides.length;
+createDots();
+
+function goToSlide(slide) {
+  slides.forEach((element, i) => {
+    element.style.transform = `translateX(${100 * (i - slide)}%)`;
+  });
+}
+
+function nextSlide() {
+  if (currentSlide === maxCountSlides - 1) currentSlide = 0;
+  else currentSlide++;
+  goToSlide(currentSlide);
+  activeDot(currentSlide);
+}
+
+function prevSlide() {
+  if (currentSlide === 0) currentSlide = maxCountSlides - 1;
+  else currentSlide--;
+  goToSlide(currentSlide);
+  activeDot(currentSlide);
+}
+
+function createDots() {
+  slides.forEach((element, i) =>
+    dotsContainer.insertAdjacentHTML(
+      "beforeend",
+      `<button class="dots__dot" data-slide="${i}"></button>`
+    )
+  );
+}
+
+function activeDot(slide) {
+  document.querySelectorAll(".dots__dot").forEach((element) => {
+    element.classList.remove("dots__dot--active");
+  });
+  document
+    .querySelector(`.dots__dot[data-slide="${slide}"]`)
+    .classList.add("dots__dot--active");
+}
+
+goToSlide(0);
+activeDot(0);
+
+btnRight.addEventListener("click", nextSlide);
+btnLeft.addEventListener("click", prevSlide);
+dotsContainer.addEventListener("click", (ev) => {
+  if (ev.target.classList.contains("dots__dot")) {
+    goToSlide(ev.target.dataset.slide);
+    activeDot(ev.target.dataset.slide);
+  }
+});
+
 // начтройка кнопки "Узнать больше"
 btnScrollTo.addEventListener("click", () => {
   section1.scrollIntoView({ behavior: "smooth" });
@@ -130,6 +191,13 @@ function surfacingSections(entries, observer) {
     //&& entries[0].target.classList.contains("section--hidden")
   ) {
     entries[0].target.classList.remove("section--hidden");
+    //переключение слайдера кнопками
+    if (entries[0].target.id == "section--3") {
+      document.addEventListener("keydown", (ev) => {
+        if (ev.key == "ArrowLeft") prevSlide();
+        if (ev.key == "ArrowRight") nextSlide();
+      });
+    }
     observer.unobserve(entries[0].target);
   }
 }
@@ -149,7 +217,7 @@ function uploadingPhotos(entries, observer) {
     observer.unobserve(tempEl);
   }
 }
-
+/*
 //слайдер
 const slider = document.querySelector(".slider");
 const slides = document.querySelectorAll(".slide");
@@ -196,3 +264,4 @@ document.addEventListener("keydown", (ev) => {
   if (isSection3 && ev.key == "ArrowLeft") prevSlide();
   if (isSection3 && ev.key == "ArrowRight") nextSlide();
 });
+*/
